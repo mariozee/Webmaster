@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Webmaster.Persistence;
 
 namespace Webmaster.Persistence.Migrations
 {
     [DbContext(typeof(WebmasterDbContext))]
-    partial class WebmasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200510163315_UpdateWebsite")]
+    partial class UpdateWebsite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

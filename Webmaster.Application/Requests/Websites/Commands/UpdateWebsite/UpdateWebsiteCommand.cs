@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Webmaster.Application.Domain.Entities
+namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
 {
-    public class Website
+    public class UpdateWebsiteCommand : IRequest<WebsiteDto>
     {
         public int Id { get; set; }
 
@@ -13,8 +14,5 @@ namespace Webmaster.Application.Domain.Entities
         public string Url { get; set; }
 
         public int CategoryId { get; set; }
-        public virtual WebsiteCategory Category { get; set; }
-
-        public bool Deleted { get; set; }
     }
 }
