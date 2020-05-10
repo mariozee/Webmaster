@@ -13,7 +13,7 @@ namespace Webmaster.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<WebmasterDbContext>(options =>
-                options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("WebmasterDbContext")));
+                options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("WebmasterDatabase")));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<WebmasterDbContext>());
 
