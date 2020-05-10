@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Webmaster.Api.Middleware;
 using Webmaster.Application;
 using Webmaster.Application.Interfaces;
@@ -40,6 +41,11 @@ namespace Webmaster.Api
 
             services.AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
+
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Webmaster API", Version = "v1" });
+            });
         }
 
 
@@ -59,6 +65,12 @@ namespace Webmaster.Api
             {
                 app.UseHsts();
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(opt =>
+            {
+                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "Webmaster API V1");
+            });
 
             app.UseCustomExceptionHandler();
 
