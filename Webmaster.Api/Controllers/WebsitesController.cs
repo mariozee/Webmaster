@@ -15,9 +15,9 @@ namespace Webmaster.Api.Controllers
     public class WebsitesController : ApplicationController
     {
         [HttpGet("")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List([FromQuery]ListWebsitesQuery query)
         {
-            var websitesDtos = await this.Mediator.Send(new ListWebsitesQuery());
+            var websitesDtos = await this.Mediator.Send(query);
 
             return this.Ok(websitesDtos);
         }
