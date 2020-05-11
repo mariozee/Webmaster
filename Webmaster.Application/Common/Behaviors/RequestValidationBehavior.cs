@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ValidationException = Webmaster.Application.Common.Exceptions.ValidationException;
 
 namespace Webmaster.Application.Common.Behaviors
 {

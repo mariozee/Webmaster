@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Webmaster.Application.Domain.Constraints;
 using Webmaster.Application.Domain.Entities;
 
 namespace Webmaster.Persistence.EntitiesConfiguration
@@ -15,7 +16,7 @@ namespace Webmaster.Persistence.EntitiesConfiguration
             builder.HasKey(wc => wc.Id);
 
             builder.Property(wc => wc.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(WebsiteCategoryConstraints.MAX_NAME_LENGHT)
                 .IsRequired();
 
             builder.HasData
