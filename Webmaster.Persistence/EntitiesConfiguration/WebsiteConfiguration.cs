@@ -23,6 +23,10 @@ namespace Webmaster.Persistence.EntitiesConfiguration
                 .HasMaxLength(WebsiteConstraints.MAX_URL_LRNGHT)
                 .IsRequired();
 
+            builder.Property(w => w.ImagePath)
+                .HasMaxLength(WebsiteConstraints.MAX_IMAGE_PATH_LENGHT)
+                .IsRequired();
+
             builder.HasOne(w => w.Category).WithMany(wc => wc.Websites).HasForeignKey(w => w.CategoryId);
         }
     }

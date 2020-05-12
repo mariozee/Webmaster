@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,9 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
 
         public string Url { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
+
+        public IFormFile Image { get; set; }
+
     }
 }

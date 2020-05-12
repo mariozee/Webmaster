@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 using System.Threading.Tasks;
 using Webmaster.Application.Requests.Websites.Commands.CreateWebsite;
 using Webmaster.Application.Requests.Websites.Commands.DeleteWebsite;
@@ -31,15 +33,15 @@ namespace Webmaster.Api.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(CreateWebsiteCommand command)
-        {
+        public async Task<IActionResult> Create([FromForm]CreateWebsiteCommand command)
+        {  
             int websiteId = await this.Mediator.Send(command);
 
             return this.Ok(websiteId);
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> Update(UpdateWebsiteCommand command)
+        public async Task<IActionResult> Update([FromForm]UpdateWebsiteCommand command)
         {
             var updatedWebsiteDto = await this.Mediator.Send(command);
 

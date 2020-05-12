@@ -1,5 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Webmaster.Application.Common.Exceptions;
@@ -24,6 +26,8 @@ namespace Webmaster.Application.Requests.Websites.Queries.GetWebsite
             if (website == null)
                 throw new NotFoundException(nameof(Website), request.WebsiteId);
 
+            string base64Image = this.GetImageAsBase64(website.ImagePath);
+
             var websiteDto = new WebsiteDto
             {
                 Id = website.Id,
@@ -31,9 +35,18 @@ namespace Webmaster.Application.Requests.Websites.Queries.GetWebsite
                 Url = website.Url,
                 CategoryId = website.Category.Id,
                 Category = website.Category.Name,
+                ImageBase64 = base64Image
             };
 
             return websiteDto;
+        }
+
+        public string GetImageAsBase64(string imagePath)
+        {
+            var bytes = File.ReadAllBytes(imagePath);
+            string base64 = Convert.ToBase64String(bytes);
+
+            return base64;
         }
     }
 }

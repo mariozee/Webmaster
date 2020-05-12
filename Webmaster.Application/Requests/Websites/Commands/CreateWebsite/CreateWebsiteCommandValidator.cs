@@ -24,6 +24,9 @@ namespace Webmaster.Application.Requests.Websites.Commands.CreateWebsite
 
             this.RuleFor(w => w.CategoryId)
                 .GreaterThan(0);
+
+            this.RuleFor(w => w.Image)
+                .NotNull();
         }
     }
 }

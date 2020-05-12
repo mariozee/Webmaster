@@ -15,6 +15,8 @@ namespace Webmaster.Application.Domain.Entities
         public int CategoryId { get; set; }
         public virtual WebsiteCategory Category { get; set; }
 
+        public string ImagePath { get; set; }
+
         public bool Deleted { get; set; }
     }
 }

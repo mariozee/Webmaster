@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Webmaster.Application.Domain.Entities;
 using Webmaster.Application.Interfaces;
 using Webmaster.Application.Extentions;
-
+using System.IO;
 
 namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
 {
@@ -44,10 +44,19 @@ namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
                 Name = w.Name,
                 Url = w.Url,
                 CategoryId = w.Category.Id,
-                Category = w.Category.Name
+                Category = w.Category.Name,
+                ImageBase64 = this.GetImageAsBase64(w.ImagePath)
             });
 
             return websitesDtos;
+        }
+
+        public string GetImageAsBase64(string imagePath)
+        {
+            var bytes = File.ReadAllBytes(imagePath);
+            string base64 = Convert.ToBase64String(bytes);
+
+            return base64;
         }
     }
 }

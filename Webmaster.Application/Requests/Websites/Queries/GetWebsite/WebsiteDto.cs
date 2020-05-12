@@ -15,5 +15,7 @@ namespace Webmaster.Application.Requests.Websites.Queries.GetWebsite
         public int CategoryId { get; set; }
 
         public string Category { get; set; }
+
+        public string ImageBase64 { get; set; }
     }
 }
