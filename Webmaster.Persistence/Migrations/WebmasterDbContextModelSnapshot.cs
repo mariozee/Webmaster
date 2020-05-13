@@ -14,7 +14,7 @@ namespace Webmaster.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -31,6 +31,11 @@ namespace Webmaster.Persistence.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(2000)")
@@ -40,6 +45,11 @@ namespace Webmaster.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -187,44 +197,11 @@ namespace Webmaster.Persistence.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Webmaster.Application.Domain.Entities.WebsiteCredentials", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WebsiteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id", "WebsiteId");
-
-                    b.HasIndex("WebsiteId")
-                        .IsUnique();
-
-                    b.ToTable("WebsiteCredentials");
-                });
-
             modelBuilder.Entity("Webmaster.Application.Domain.Entities.Website", b =>
                 {
                     b.HasOne("Webmaster.Application.Domain.Entities.WebsiteCategory", "Category")
                         .WithMany("Websites")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Webmaster.Application.Domain.Entities.WebsiteCredentials", b =>
-                {
-                    b.HasOne("Webmaster.Application.Domain.Entities.Website", "Website")
-                        .WithOne("Credentials")
-                        .HasForeignKey("Webmaster.Application.Domain.Entities.WebsiteCredentials", "WebsiteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

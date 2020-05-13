@@ -9,8 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Webmaster.Application.Common;
 using Webmaster.Application.Common.Exceptions;
+using Webmaster.Application.Common.Files;
 using Webmaster.Application.Domain.Entities;
+using Webmaster.Application.Extentions;
 using Webmaster.Application.Interfaces;
 
 namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
@@ -18,12 +21,12 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
     public class UpdateWebsiteCommandHandler : IRequestHandler<UpdateWebsiteCommand, WebsiteDto>
     {
         private readonly IApplicationDbContext dbContext;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly ImageProvider imageProvider;
 
-        public UpdateWebsiteCommandHandler(IApplicationDbContext dbContext, IHostingEnvironment hostingEnvironment)
+        public UpdateWebsiteCommandHandler(IApplicationDbContext dbContext, ImageProvider imageProvider)
         {
             this.dbContext = dbContext;
-            this.hostingEnvironment = hostingEnvironment;
+            this.imageProvider = imageProvider;
         }
 
         public async Task<WebsiteDto> Handle(UpdateWebsiteCommand request, CancellationToken cancellationToken)
@@ -49,13 +52,16 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
             }
 
             if (request.Image != null)
-                website.ImagePath = await this.SaveImageAsync(request.Image);
+            {
+                string filePath = await request.Image.SaveToAsync(this.imageProvider.ImagesPath);
+                website.ImagePath = filePath;
+            }
 
             if (!string.IsNullOrWhiteSpace(request.Email))
-                website.Credentials.Email = request.Email;
+                website.Email = request.Email;
 
             if (!string.IsNullOrWhiteSpace(request.Password))
-                website.Credentials.Password = request.Password;
+                website.Password = request.Password;
 
             await this.dbContext.SaveChangesAsync();
 
@@ -66,32 +72,12 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
                 Url = website.Url,
                 CategoryId = website.Category.Id,
                 Category = website.Category.Name,
-                ImageBase64 = this.GetImageAsBase64(website.ImagePath),
-                Email = website.Credentials.Email,
-                Password = website.Credentials.Password,
+                ImageBase64 = this.imageProvider.GetBase64ImageFromPath(website.ImagePath),
+                Email = request.Email,
+                Password = request.Password,
             };
 
             return updatedWebsiteDto;
-        }
-
-        private async Task<string> SaveImageAsync(IFormFile image)
-        {
-            string uploadPath = Path.Combine(this.hostingEnvironment.ContentRootPath, "Images");
-            string filePath = Path.Combine(uploadPath, image.FileName);
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
-
-            return filePath;
-        }
-
-        public string GetImageAsBase64(string imagePath)
-        {
-            var bytes = File.ReadAllBytes(imagePath);
-            string base64 = Convert.ToBase64String(bytes);
-
-            return base64;
         }
     }
 }

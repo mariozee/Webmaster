@@ -27,6 +27,18 @@ namespace Webmaster.Persistence.EntitiesConfiguration
                 .HasMaxLength(WebsiteConstraints.MAX_IMAGE_PATH_LENGHT)
                 .IsRequired();
 
+            builder.Property(w => w.ImagePath)
+                .HasMaxLength(WebsiteConstraints.MAX_IMAGE_PATH_LENGHT)
+                .IsRequired();
+
+            builder.Property(w => w.Email)
+                .HasMaxLength(WebsiteConstraints.MAX_EMAIL_LENGHT)
+                .IsRequired();
+
+            builder.Property(w => w.Password)
+                .HasMaxLength(WebsiteConstraints.MAX_PASSWORD_LENGHT)
+                .IsRequired();
+
             builder.HasOne(w => w.Category).WithMany(wc => wc.Websites).HasForeignKey(w => w.CategoryId);
         }
     }

@@ -19,6 +19,8 @@ namespace Webmaster.Application.Domain.Entities
 
         public bool Deleted { get; set; }
 
-        public virtual WebsiteCredentials Credentials { get; set; }
+        public string Email { get; set; }
+
+        public string Password { get; set; }
     }
 }

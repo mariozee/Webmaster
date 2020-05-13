@@ -10,6 +10,7 @@ using Webmaster.Application.Domain.Entities;
 using Webmaster.Application.Interfaces;
 using Webmaster.Application.Extentions;
 using System.IO;
+using Webmaster.Application.Common.Files;
 
 namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
 {
@@ -19,10 +20,12 @@ namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
         private const int DefaultPageSize = 10;
 
         private readonly IApplicationDbContext dbContext;
+        private readonly ImageProvider imageProvider;
 
-        public ListWebsitesQueryHandler(IApplicationDbContext dbContext)
+        public ListWebsitesQueryHandler(IApplicationDbContext dbContext, ImageProvider imageProvider)
         {
             this.dbContext = dbContext;
+            this.imageProvider = imageProvider;
         }
 
         public async Task<IEnumerable<WebsiteDto>> Handle(ListWebsitesQuery request, CancellationToken cancellationToken)
@@ -45,20 +48,12 @@ namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
                 Url = w.Url,
                 CategoryId = w.Category.Id,
                 Category = w.Category.Name,
-                ImageBase64 = this.GetImageAsBase64(w.ImagePath),
-                Email = w.Credentials.Email,
-                Password = w.Credentials.Password
-            });
+                ImageBase64 = this.imageProvider.GetBase64ImageFromPath(w.ImagePath),
+                Email = w.Email,
+                Password = w.Password
+            }).ToList();
 
             return websitesDtos;
-        }
-
-        public string GetImageAsBase64(string imagePath)
-        {
-            var bytes = File.ReadAllBytes(imagePath);
-            string base64 = Convert.ToBase64String(bytes);
-
-            return base64;
         }
     }
 }
