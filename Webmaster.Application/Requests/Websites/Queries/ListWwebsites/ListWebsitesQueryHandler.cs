@@ -45,7 +45,9 @@ namespace Webmaster.Application.Requests.Websites.Queries.ListWwebsites
                 Url = w.Url,
                 CategoryId = w.Category.Id,
                 Category = w.Category.Name,
-                ImageBase64 = this.GetImageAsBase64(w.ImagePath)
+                ImageBase64 = this.GetImageAsBase64(w.ImagePath),
+                Email = w.Credentials.Email,
+                Password = w.Credentials.Password
             });
 
             return websitesDtos;

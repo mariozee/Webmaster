@@ -11,5 +11,8 @@ namespace Webmaster.Application.Domain.Entities
         public string Email { get; set; }
 
         public string Password { get; set; }
+
+        public int WebsiteId { get; set; }
+        public virtual Website Website { get; set; }
     }
 }

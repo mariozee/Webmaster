@@ -38,6 +38,11 @@ namespace Webmaster.Application.Requests.Websites.Commands.CreateWebsite
                 Url = request.Url,
                 CategoryId = request.CategoryId,
                 ImagePath = filePath,
+                Credentials = new WebsiteCredentials
+                {
+                    Email = request.Email,
+                    Password = request.Password
+                }
             };
 
             await this.dbContext.Websites.AddAsync(website);

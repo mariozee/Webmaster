@@ -35,7 +35,9 @@ namespace Webmaster.Application.Requests.Websites.Queries.GetWebsite
                 Url = website.Url,
                 CategoryId = website.Category.Id,
                 Category = website.Category.Name,
-                ImageBase64 = base64Image
+                ImageBase64 = base64Image,
+                Email = website.Credentials.Email,
+                Password = website.Credentials.Password
             };
 
             return websiteDto;

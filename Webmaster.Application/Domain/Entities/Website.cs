@@ -18,5 +18,7 @@ namespace Webmaster.Application.Domain.Entities
         public string ImagePath { get; set; }
 
         public bool Deleted { get; set; }
+
+        public virtual WebsiteCredentials Credentials { get; set; }
     }
 }

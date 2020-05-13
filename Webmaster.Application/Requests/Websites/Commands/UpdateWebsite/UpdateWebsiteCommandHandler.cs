@@ -51,6 +51,12 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
             if (request.Image != null)
                 website.ImagePath = await this.SaveImageAsync(request.Image);
 
+            if (!string.IsNullOrWhiteSpace(request.Email))
+                website.Credentials.Email = request.Email;
+
+            if (!string.IsNullOrWhiteSpace(request.Password))
+                website.Credentials.Password = request.Password;
+
             await this.dbContext.SaveChangesAsync();
 
             var updatedWebsiteDto = new WebsiteDto
@@ -60,7 +66,9 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
                 Url = website.Url,
                 CategoryId = website.Category.Id,
                 Category = website.Category.Name,
-                ImageBase64 = this.GetImageAsBase64(website.ImagePath)
+                ImageBase64 = this.GetImageAsBase64(website.ImagePath),
+                Email = website.Credentials.Email,
+                Password = website.Credentials.Password,
             };
 
             return updatedWebsiteDto;

@@ -16,6 +16,10 @@ namespace Webmaster.Application.Requests.Websites.Commands.UpdateWebsite
 
         public string Category { get; set; }
 
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
         public string ImageBase64 { get; set; }
     }
 }

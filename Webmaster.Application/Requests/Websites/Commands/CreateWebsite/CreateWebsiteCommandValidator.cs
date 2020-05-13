@@ -27,6 +27,14 @@ namespace Webmaster.Application.Requests.Websites.Commands.CreateWebsite
 
             this.RuleFor(w => w.Image)
                 .NotNull();
+
+            this.RuleFor(w => w.Email)
+                .NotEmpty()
+                .NotNull();
+
+            this.RuleFor(w => w.Password)
+                .NotEmpty()
+                .NotNull();
         }
     }
 }
